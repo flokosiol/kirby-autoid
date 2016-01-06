@@ -145,36 +145,35 @@ kirby()->hook('panel.page.update', function($page) use ($plugin) {
 
 
 kirbytext::$tags['autoid'] = array(
-  'attr' => array(
-    'text'
-  ),
-  'html' => function($tag) {
-    // Field name to search for
-    $fieldName = c::get('autoid.name', 'autoid');
+    'attr' => array(
+        'text'
+    ),
+    'html' => function($tag) {
+        // Field name to search for
+        $fieldName = c::get('autoid.name', 'autoid');
 
-    // Make use of the entered value
-    $autoid = $tag->attr('autoid');
-    $text   = $tag->attr('text', NULL);
+        // Make use of the entered value
+        $autoid = $tag->attr('autoid');
+        $text   = $tag->attr('text', NULL);
 
-    // Find coresponding page
-    $targets   = site()->index()->filterBy($fieldName, '==' , $autoid)->limit(1);
+        // Find coresponding page
+        $targets   = site()->index()->filterBy($fieldName, '==' , $autoid)->limit(1);
     
-    if (!$targets->count()) {
-        // No page with this autoid
-        return;
-    }
-
-    foreach ($targets as $target) {
-        // Use page title as link text if no text has been entered
-        if (!$text) {
-            $text = $target->title()->html();
+        if (!$targets->count()) {
+            // No page with this autoid
+            return;
         }
 
-        // Get the page url
-        $url  = $target->url();
-    }
-    
-    return '<a href="' . $url . '">' . $text . '</a>';
+        foreach ($targets as $target) {
+            // Use page title as link text if no text has been entered
+            if (!$text) {
+                $text = $target->title()->html();
+            }
 
-  }
+            // Get the page url
+            $url  = $target->url();
+        }
+        
+        return '<a href="' . $url . '">' . $text . '</a>';
+    }
 );
